@@ -104,12 +104,44 @@
   }
 }
 
-@media (max-width: 480px) {
-  .navbar-menu {
-    gap: 2px;
+/* Additional styles for authentication features */
+.navbar-user {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.user-name {
+  font-size: 14px;
+  color: #2E8B57;
+  font-weight: 500;
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.logout-btn {
+  background: none !important;
+  border: none;
+  cursor: pointer;
+}
+
+.login-btn {
+  background-color: #2E8B57 !important;
+  color: white !important;
+}
+
+.login-btn:hover {
+  background-color: #236B44 !important;
+}
+
+@media (max-width: 768px) {
+  .user-name {
+    display: none;
   }
   
-  .navbar-item {
-    padding: 6px 8px;
+  .navbar-user {
+    gap: 4px;
   }
 }
