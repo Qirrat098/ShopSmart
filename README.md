@@ -1,12 +1,35 @@
-# React + Vite
+# 🛒 ShopSmart
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Grocery Price Comparison & Deals Finder**  
+Compare prices from nearby stores and online platforms in real time, create smart shopping lists, and get alerts for the best deals.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Features
 
-## Expanding the ESLint configuration
+- **Real-time Price Comparison** — Compare grocery prices from multiple stores.
+- **Smart Shopping Lists** — Get the cheapest options for your list.
+- **Deal Alerts** — Receive notifications for discounts and promotions.
+- **User Authentication** — Secure signup/login with Firebase Auth.
+- **Responsive UI** — Works seamlessly on desktop and mobile.
+- **Smooth Animations** — Framer Motion for interactive experience.
+- **Cloud Database** — Store user lists and deals in Firestore.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## 🛠 Tech Stack
+
+- **Frontend:** React (Vite), Tailwind CSS, Framer Motion
+- **Backend & Hosting:** Firebase (Auth, Firestore, Hosting)
+- **Data Fetching:** Axios
+- **Web Scraping:** Puppeteer, Cheerio
+- **Routing:** React Router DOM
+
+---
+
+## 📦 Installation
+
+### 1️⃣ Clone the Repository
+```bash
+git clone https://github.com/YOUR_USERNAME/shopsmart.git
+cd shopsmart
