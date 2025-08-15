@@ -7,7 +7,7 @@ import {
   ListBulletIcon, 
   UserIcon 
 } from '@heroicons/react/24/outline';
-import '../styles/Navbar.css';
+import './Navbar.css'
 
 function Navbar() {
   const navItems = [
