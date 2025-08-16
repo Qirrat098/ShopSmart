@@ -11,6 +11,8 @@ import MyList from './pages/MyList';
 import Profile from './pages/Profile';
 import Login from './pages/Login';
 import './styles/App.css';
+import AddItemForm from "./components/AddItemForm";
+import ItemList from "./components/ItemList";
 
 function App() {
   return (

@@ -1,11 +1,11 @@
 // backend/models/Item.js
 import mongoose from "mongoose";
 
-const ItemSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  price: { type: Number, required: true },
-  store: { type: String, required: true },
-  createdAt: { type: Date, default: Date.now }
-});
+const itemSchema = new mongoose.Schema({
+  name: String,
+  price: Number,
+  store: String,
+}, { timestamps: true });
 
-export default mongoose.model("Item", ItemSchema);
+export default mongoose.model("Item", itemSchema);
+
