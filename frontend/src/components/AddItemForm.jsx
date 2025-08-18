@@ -14,6 +14,7 @@ export default function AddItemForm({ onItemAdded }) {
   return (
     <form onSubmit={handleSubmit} className="p-4 space-y-2 border rounded mb-4">
       <input
+      
         className="border p-2 w-full"
         placeholder="Item name"
         value={form.name}
