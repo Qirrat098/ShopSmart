@@ -1,15 +1,5 @@
 // src/contexts/AuthContext.jsx
 import { createContext, useContext, useEffect, useState } from 'react';
-import { 
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
-  signOut,
-  signInWithPopup,
-  onAuthStateChanged,
-  updateProfile
-} from 'firebase/auth';
-import { auth, googleProvider, db } from '../services/firebase';
-import { doc, setDoc, getDoc } from 'firebase/firestore';
 
 const AuthContext = createContext();
 
@@ -23,67 +13,53 @@ export function useAuth() {
 
 export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
-  // Create or update user document in Firestore
-  async function createUserDocument(user, additionalData = {}) {
-    if (!user) return;
-    const userRef = doc(db, 'users', user.uid);
-    const userSnap = await getDoc(userRef);
-
-    if (!userSnap.exists()) {
-      await setDoc(userRef, {
-        uid: user.uid,
-        email: user.email,
-        displayName: user.displayName || additionalData.displayName || '',
-        createdAt: new Date(),
-        ...additionalData
-      });
-    }
-  }
-
-  // Sign up with email and password
+  // Simple signup function for now
   async function signup(email, password, displayName) {
-    const result = await createUserWithEmailAndPassword(auth, email, password);
-    
-    // Update profile with display name
-    await updateProfile(result.user, {
-      displayName: displayName
-    });
-
-    // Create user document in Firestore
-    await createUserDocument(result.user, { displayName });
-    
-    return result;
+    // Mock signup - in real app, this would use Firebase
+    const mockUser = {
+      uid: Date.now().toString(),
+      email,
+      displayName,
+      photoURL: null
+    };
+    setCurrentUser(mockUser);
+    return { user: mockUser };
   }
 
-  // Sign in with email and password
+  // Simple login function for now
   async function login(email, password) {
-    return signInWithEmailAndPassword(auth, email, password);
+    // Mock login - in real app, this would use Firebase
+    const mockUser = {
+      uid: Date.now().toString(),
+      email,
+      displayName: 'Demo User',
+      photoURL: null
+    };
+    setCurrentUser(mockUser);
+    return { user: mockUser };
   }
 
-  // Sign in with Google
-  async function signInWithGoogle() {
-    const result = await signInWithPopup(auth, googleProvider);
-    await createUserDocument(result.user);
-    return result;
-  }
-
-  // Sign out
+  // Simple logout function for now
   async function logout() {
-    return signOut(auth);
+    setCurrentUser(null);
   }
 
-  // Listen for auth state changes
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      setCurrentUser(user || null);
-      setLoading(false);
-    });
-    return unsubscribe;
-  }, []);
+  // Simple Google sign in for now
+  async function signInWithGoogle() {
+    const mockUser = {
+      uid: Date.now().toString(),
+      email: 'demo@google.com',
+      displayName: 'Google User',
+      photoURL: null
+    };
+    setCurrentUser(mockUser);
+    return { user: mockUser };
+  }
 
   const value = {
+    user: currentUser, // Use 'user' to match what components expect
     currentUser,
     signup,
     login,
@@ -93,7 +69,7 @@ export function AuthProvider({ children }) {
 
   return (
     <AuthContext.Provider value={value}>
-      {!loading && children}
+      {children}
     </AuthContext.Provider>
   );
 }

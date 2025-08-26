@@ -6,12 +6,12 @@ import {
   StarIcon, 
   ShoppingBagIcon,
   ArrowRightIcon,
-  HeadphonesIcon,
+  PhoneIcon,
   ShieldCheckIcon,
   ArrowPathIcon,
   TruckIcon
 } from '@heroicons/react/24/outline';
-import { getFeaturedDeals, getItems, getStores } from '../api';
+import { mockFeaturedDeals, mockItems, mockStores, mockCategories } from '../mockData';
 import ItemCard from '../components/ItemCard';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
@@ -25,29 +25,16 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchHomeData = async () => {
-      try {
-        const [dealsData, itemsData, storesData] = await Promise.all([
-          getFeaturedDeals(),
-          getItems({ limit: 1000 }),
-          getStores()
-        ]);
-
-        setFeaturedDeals(dealsData);
-        
-        // Extract unique categories
-        const uniqueCategories = [...new Set(itemsData.items.map(item => item.category))];
-        setCategories(uniqueCategories.slice(0, 6)); // Show top 6 categories
-        
-        setStores(storesData);
-      } catch (err) {
-        console.error('Failed to load home data:', err);
-      } finally {
-        setLoading(false);
-      }
+    // Use mock data for now instead of API calls
+    const loadMockData = () => {
+      setFeaturedDeals(mockFeaturedDeals);
+      setCategories(mockCategories);
+      setStores(mockStores);
+      setLoading(false);
     };
 
-    fetchHomeData();
+    // Simulate loading delay
+    setTimeout(loadMockData, 1000);
   }, []);
 
   const handleSearch = (e) => {
@@ -190,7 +177,7 @@ export default function Home() {
             className="grid grid-cols-2 md:grid-cols-4 gap-6"
           >
             {[
-              { icon: HeadphonesIcon, title: "Support 24h", color: "blue" },
+              { icon: PhoneIcon, title: "Support 24h", color: "blue" },
               { icon: ShieldCheckIcon, title: "Secure Payment", color: "green" },
               { icon: ArrowPathIcon, title: "Refundable", color: "purple" },
               { icon: TruckIcon, title: "Free Shipping", subtitle: "Over $40", color: "orange" }
@@ -402,7 +389,7 @@ export default function Home() {
               layout
               className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
             >
-              {featuredDeals.slice(0, 8).map((item, index) => (
+              {featuredDeals.map((item, index) => (
                 <motion.div
                   key={item._id}
                   layout
