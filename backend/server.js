@@ -1,57 +1,57 @@
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
-import Item from "./models/Item.js"; // ✅ import the model
-import itemsRouter from "./routes/items.js";  // ✅ correct import
+import Item from "./models/Item.js";
+import Store from "./models/Store.js";
+import User from "./models/User.js";
+import itemsRouter from "./routes/items.js";
+import storesRouter from "./routes/stores.js";
+import usersRouter from "./routes/users.js";
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-// ✅ Correct connection string
+// MongoDB connection
 const mongoURI = "mongodb+srv://qiratazam123:tD20zU7JXrpYde5y@shopsmart-cluster.scs7ktn.mongodb.net/shopsmart";
-app.use("/api/items", itemsRouter);
+
 mongoose
   .connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log("✅ MongoDB connected"))
   .catch((err) => console.error("❌ MongoDB connection error:", err));
 
+// Routes
+app.use("/api/items", itemsRouter);
+app.use("/api/stores", storesRouter);
+app.use("/api/users", usersRouter);
+
+// Health check
 app.get("/", (req, res) => {
-  res.send("ShopSmart Backend Running 🚀");
+  res.json({
+    message: "ShopSmart Backend Running 🚀",
+    status: "healthy",
+    timestamp: new Date().toISOString(),
+    endpoints: {
+      items: "/api/items",
+      stores: "/api/stores",
+      users: "/api/users"
+    }
+  });
 });
 
-app.listen(8000, () => {
-  console.log("✅ Server running on http://localhost:8000");
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ error: "Something went wrong!" });
 });
 
-// Test Route
-app.get("/", (req, res) => {
-  res.send("ShopSmart Backend Running 🚀");
+// 404 handler
+app.use((req, res) => {
+  res.status(404).json({ error: "Route not found" });
 });
 
-// Add grocery item
-app.post("/api/items", async (req, res) => {
-  try {
-    const { name, price, store } = req.body;
-    const newItem = new Item({ name, price, store });
-    await newItem.save();
-    res.json(newItem);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
+const PORT = process.env.PORT || 8000;
+app.listen(PORT, () => {
+  console.log(`✅ Server running on http://localhost:${PORT}`);
+  console.log(`📊 API Documentation: http://localhost:${PORT}`);
 });
-
-// Get all items
-app.get("/api/items", async (req, res) => {
-  try {
-    const items = await Item.find();
-    res.json(items);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
-mongoose.connect("your_mongodb_connection_string")
-  .then(() => console.log("✅ MongoDB connected"))
-  .catch(err => console.error("❌ MongoDB error:", err));
-
-app.listen(8000, () => console.log("✅ Server running on http://localhost:8000"));
